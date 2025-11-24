@@ -23,8 +23,7 @@ The final goal is to:
 - **Wave 1**: no vaccine-hesitancy label → used later for *prediction only*  
 - **Wave 2**: includes `vaccine_hesitant` → used as *training dataset* :contentReference[oaicite:1]{index=1}  
 
-> **TODO:** Insert the exact Dataverse URL here once you finalize it:
-> - `https://doi.org/...` (Harvard Dataverse link)
+(https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi%3A10.7910%2FDVN%2FGJVWYF&fbclid=IwY2xjawORHtpleHRuA2FlbQIxMQBzcnRjBmFwcF9pZAEwAAEeFA8hkI5DVFFs3e4UinyZszS9x4FfHL5gNE-EBJfltBWlE_9Jjxoyyeh3FMs_aem_L2iGJBJikODnIj3Ct4ysTQ)
 
 ### 2.2 Files in this repo
 
@@ -47,3 +46,4 @@ Variables include:
 
    ```text
    data/vh_data14.csv
+
