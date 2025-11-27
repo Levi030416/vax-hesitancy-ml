@@ -1,8 +1,4 @@
-pandas
 numpy
+pandas
 scikit-learn
-matplotlib
-seaborn
-scipy
-joblib
-openpyxl
+optuna
