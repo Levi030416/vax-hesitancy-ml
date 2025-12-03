@@ -6,10 +6,10 @@ import numpy as np
 import random
 import math
 
-from code.data import load_data, wave2, wave1, split
-from code.features import features
-from code.models import models
-from code.evaluate import evaluate
+from vh_code.data import load_data, wave2, wave1, split
+from vh_code.features import features
+from vh_code.models import models
+from vh_code.evaluate import evaluate, wave1_prediction_analysis
 
 # SETTINGS
 
@@ -50,6 +50,9 @@ vh_wave2 = wave2(vh)
 # 2) split
 X_train, X_test, y_train, y_test = split(vh_wave2, random_state=seed)
 
+X_train_raw = X_train.copy()
+y_train_raw = y_train.copy()
+
 # 3) features
 X_train, X_test, y_train, y_test, X_train_std, X_test_std = features(
     X_train, X_test, y_train, y_test
@@ -73,6 +76,21 @@ evaluate(
     X_test.columns,
 )
 
+# 6) Wave 1 prediction
+vh_wave1 = wave1(vh)
+
+wave1_prediction_analysis(
+    ols_model,
+    ridge_model,
+    lasso_model,
+    dt_model,
+    rf_model,
+    X_train_raw,
+    y_train_raw,
+    X_train,
+    X_train_std,
+    vh_wave1,
+)
 
 # 8) Timer output
 
