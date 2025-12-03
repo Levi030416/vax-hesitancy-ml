@@ -70,14 +70,8 @@ evaluate(
     X_test,
     X_test_std,
     y_test,
+    X_test.columns,
 )
-
-# 6) Wave 1 estimation and analysis
-
-
-
-# 7) Graphs for outputs (other metrics too if necessary)
- 
 
 
 # 8) Timer output
