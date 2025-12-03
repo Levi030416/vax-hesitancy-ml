@@ -32,7 +32,7 @@ def _tune_ridge_classifier(seed, TRIALS_NUMBER, K_FOLD_K, X_train_std, y_train):
             y_train,
             cv=cv,
             scoring="roc_auc",
-            n_jobs=-1,
+            n_jobs=1,
         )
         return scores.mean()
 
@@ -83,7 +83,7 @@ def _tune_lasso_classifier(seed, TRIALS_NUMBER, K_FOLD_K, X_train_std, y_train):
             y_train,
             cv=cv,
             scoring="roc_auc",
-            n_jobs=-1,
+            n_jobs=1,
         )
         return scores.mean()
 
@@ -133,7 +133,7 @@ def _tune_decision_tree_classifier(seed, TRIALS_NUMBER, K_FOLD_K, X_train, y_tra
             y_train,
             cv=cv,
             scoring="roc_auc",
-            n_jobs=-1,
+            n_jobs=1,
         )
         return scores.mean()
 
@@ -174,7 +174,7 @@ def _tune_random_forest_classifier(seed, TRIALS_NUMBER, K_FOLD_K, X_train, y_tra
             max_depth=max_depth,
             min_samples_split=min_samples_split,
             min_samples_leaf=min_samples_leaf,
-            n_jobs=-1,
+            n_jobs=1,
             random_state=seed,
         )
 
@@ -184,7 +184,7 @@ def _tune_random_forest_classifier(seed, TRIALS_NUMBER, K_FOLD_K, X_train, y_tra
             y_train,
             cv=cv,
             scoring="roc_auc",
-            n_jobs=-1,
+            n_jobs=1,
         )
         return scores.mean()
 
@@ -199,7 +199,7 @@ def _tune_random_forest_classifier(seed, TRIALS_NUMBER, K_FOLD_K, X_train, y_tra
         max_depth=best_params["max_depth"],
         min_samples_split=best_params["min_samples_split"],
         min_samples_leaf=best_params["min_samples_leaf"],
-        n_jobs=-1,
+        n_jobs=1,
         random_state=seed,
     )
     best_model.fit(X_train, y_train)
