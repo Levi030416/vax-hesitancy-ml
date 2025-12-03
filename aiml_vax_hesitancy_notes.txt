@@ -1,7 +1,22 @@
-Model Evaluation & Interpretation Note
+#Model Evaluation & Interpretation Note
 
 Models are evaluated on a held-out test sample (20% split, stratified by outcome). The baseline is an unregularized logistic regression (OLS). Its performance is compared to Ridge and Lasso logistic regressions and to non-linear models (Decision Tree and Random Forest).
 
 Model comparison is based on accuracy, precision, recall, F1-score and ROC-AUC. The full numerical comparison is reported in metrics_table.csv, which is constructed directly from test-set predictions.
 
 Interpretation is based on standardized coefficients for the linear models and impurity-based feature importance for the tree models. The Random Forest importance bar chart visualizes the strongest predictors of vaccine hesitancy. ROC and Precision-Recall curves illustrate classification performance across thresholds and are used to compare ranking quality across models.
+
+#Wave 1 Prediction Evaluation
+
+Since no observed outcome is available for Wave 1, model performance cannot be evaluated using classification metrics. Instead, we assess the distribution of predicted vaccine hesitancy probabilities to analyze model behavior and stability.
+
+For the linear models (OLS, Ridge, and Lasso), the predicted probabilities exhibit a strong right-skewed distribution, with most observations concentrated between 0 and 0.20, and a long tail extending toward higher probabilities (up to approximately 0.7–0.8). This indicates that the majority of individuals in Wave 1 are classified as having low predicted hesitancy, while a smaller but non-negligible subgroup is assigned substantially higher risk. The similarity of the OLS, Ridge, and Lasso distributions suggests that regularization does not materially alter the overall risk structure in the out-of-sample wave.
+
+The Random Forest model produces a more bell-shaped and compact distribution, centered roughly between 0.10 and 0.25, with relatively fewer extreme probability values. Compared to the linear models, Random Forest assigns fewer very high-risk predictions and shows stronger concentration around moderate probability levels. This reflects the ensemble’s smoothing effect and its tendency to avoid extreme probability outputs.
+
+In contrast, the Decision Tree model shows a highly discrete and clustered distribution, with large probability masses concentrated at only a few distinct values (notably around approximately 0.12 and 0.40). This behavior is typical for single-tree models, which generate piecewise-constant predictions based on discrete terminal nodes. The resulting distribution is much less smooth than those of the other models and indicates stronger sensitivity to specific feature splits.
+
+Overall, the Wave 1 prediction distributions are structurally consistent with expectations from each model class:
+linear models produce smooth, skewed risk distributions; the Random Forest generates stabilized, centrally concentrated probabilities; and the Decision Tree yields discrete clusters. The absence of abnormal spikes or degenerate distributions suggests that the models generalize coherently to Wave 1, with no evidence of numerical instability or distributional collapse in the out-of-sample predictions.
+
+Compared to the Wave 2 test-set predictions, the overall shape of the probability distributions remains highly similar across all model classes. In both waves, the linear models (OLS, Ridge, Lasso) produce right-skewed distributions with most mass at low predicted probabilities, while Random Forest yields a more centrally concentrated distribution, and the Decision Tree shows discrete probability clustering. This structural consistency indicates that the models exhibit stable temporal behavior, and the relationships learned from Wave 2 generalize coherently to the earlier Wave 1 population without signs of distributional shift or prediction instability.
