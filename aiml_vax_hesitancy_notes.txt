@@ -1,0 +1,7 @@
+Model Evaluation & Interpretation Note
+
+Models are evaluated on a held-out test sample (20% split, stratified by outcome). The baseline is an unregularized logistic regression (OLS). Its performance is compared to Ridge and Lasso logistic regressions and to non-linear models (Decision Tree and Random Forest).
+
+Model comparison is based on accuracy, precision, recall, F1-score and ROC-AUC. The full numerical comparison is reported in metrics_table.csv, which is constructed directly from test-set predictions.
+
+Interpretation is based on standardized coefficients for the linear models and impurity-based feature importance for the tree models. The Random Forest importance bar chart visualizes the strongest predictors of vaccine hesitancy. ROC and Precision-Recall curves illustrate classification performance across thresholds and are used to compare ranking quality across models.
