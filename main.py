@@ -25,7 +25,7 @@ def parse_args():
     parser.add_argument(
         "--data_path",
         type=str,
-        required=True,
+        default="./data/vh_data14.csv",
     )
     parser.add_argument(
         "--seed",
@@ -98,4 +98,5 @@ end_time = time.perf_counter()
 total_time = end_time - start_time
 minutes = math.floor(total_time / 60)
 seconds = total_time % 60
+
 print(f"Total runtime: {minutes} minutes, {seconds:.2f} seconds for {TRIALS_NUMBER} trials per model and {K_FOLD_K}-fold.\n")
