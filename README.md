@@ -51,7 +51,7 @@ Variables include:
 ## 3 FULL PROJECT SETUP & EXECUTION
 
 ### 3.1 Clone repository and enter it
-    git clone <REPOSITORY_URL>
+    git clone (https://github.com/Levi030416/vax-hesitancy-ml)
     cd vax-hesitancy-ml
 
 ### 3.2 Create virtual environment
@@ -117,5 +117,6 @@ Model training:
 - Default seed = 101
 - All tuning and cross-validation are deterministic
 - Rerunning with the same seed reproduces identical results
+
 
 
