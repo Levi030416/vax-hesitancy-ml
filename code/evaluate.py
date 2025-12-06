@@ -28,13 +28,17 @@ def evaluate(
     X_test_std,
     y_test,
     feature_names,
+    nvt
 ):
-    
+    suffix = "_nvt" if nvt == 1 else ""
     total_cases = len(y_test)
     actual_hesitant = int((y_test == 1).sum())
     actual_acceptant = total_cases - actual_hesitant
-
-    print("\n==================== CLASSIFICATION EVALUATION ====================")
+    
+    if nvt == 0:
+        print("\n==================== CLASSIFICATION EVALUATION - WITH VACCINE TRUST DATA ====================")
+    else:
+        print("\n==================== CLASSIFICATION EVALUATION - WITHOUT VACCINE TRUST DATA ====================")
     print(
         f"\nTest set has {total_cases} cases: "
         f"{actual_hesitant} hesitant (1), {actual_acceptant} not hesitant (0)."
@@ -129,7 +133,7 @@ def evaluate(
     # SAVE METRICS TABLE AS CSV FOR THE REPORT
     # ============================================
     metrics_df = pd.DataFrame.from_dict(metrics, orient="index")
-    metrics_csv_path = Path("./outputs/metrics_table.csv")
+    metrics_csv_path = Path(f"./outputs/metrics_table{suffix}.csv")
     metrics_csv_path.parent.mkdir(parents=True, exist_ok=True)
     metrics_df.to_csv(metrics_csv_path)
     print(f"\nSaved metrics table to {metrics_csv_path}")
@@ -152,7 +156,7 @@ def evaluate(
         })
         df["abs_coefficient"] = df["coefficient"].abs()
         df = df.sort_values("abs_coefficient", ascending=False)
-        out_path = coeffs_dir / f"{model_name}_coefficients.csv"
+        out_path = coeffs_dir / f"{model_name}_coefficients{suffix}.csv"
         df.to_csv(out_path, index=False)
         print(f"Saved {model_name} coefficients to {out_path}")
 
@@ -174,7 +178,7 @@ def evaluate(
             "importance": importances,
         })
         df = df.sort_values("importance", ascending=False)
-        out_path = coeffs_dir / f"{model_name}_feature_importances.csv"
+        out_path = coeffs_dir / f"{model_name}_feature_importances{suffix}.csv"
         df.to_csv(out_path, index=False)
         print(f"Saved {model_name} feature importances to {out_path}")
 
@@ -184,12 +188,12 @@ def evaluate(
     # ============================================
     # SAVE JSON OUTPUTS (metrics + predictions)
     # ============================================
-    metrics_path = Path("./outputs/metrics.json")
+    metrics_path = Path(f"./outputs/metrics{suffix}.json")
     with metrics_path.open("w") as f:
         json.dump(metrics, f, indent=2)
     print(f"\nSaved metrics to {metrics_path}")
 
-    preds_path = Path("./outputs/predictions.json")
+    preds_path = Path(f"./outputs/predictions{suffix}.json")
     with preds_path.open("w") as f:
         json.dump(predictions, f, indent=2)
     print(f"Saved predictions to {preds_path}")
@@ -216,7 +220,7 @@ def evaluate(
     plt.xlabel("Importance")
     plt.title("Random Forest feature importance (top 15)")
     plt.tight_layout()
-    rf_fig_path = figures_dir / "random_forest_feature_importance_top15.png"
+    rf_fig_path = figures_dir / f"random_forest_feature_importance_top15{suffix}.png"
     plt.savefig(rf_fig_path, dpi=300)
     plt.close()
     print(f"Saved Random Forest feature importance plot to {rf_fig_path}")
@@ -231,7 +235,7 @@ def evaluate(
     plt.title("ROC curves (test set)")
     plt.legend()
     plt.tight_layout()
-    roc_fig_path = figures_dir / "roc_curves.png"
+    roc_fig_path = figures_dir / f"roc_curves{suffix}.png"
     plt.savefig(roc_fig_path, dpi=300)
     plt.close()
     print(f"Saved ROC curves plot to {roc_fig_path}")
@@ -245,7 +249,7 @@ def evaluate(
     plt.title("Precision–Recall curves (test set)")
     plt.legend()
     plt.tight_layout()
-    pr_fig_path = figures_dir / "precision_recall_curves.png"
+    pr_fig_path = figures_dir / f"precision_recall_curves{suffix}.png"
     plt.savefig(pr_fig_path, dpi=300)
     plt.close()
     print(f"Saved Precision–Recall curves plot to {pr_fig_path}\n")
@@ -285,6 +289,7 @@ def wave1_prediction_analysis(
         X_wave1_raw.copy(),
         y_train_raw.copy(),
         y_dummy,
+        0
     )
 
     X_wave1_feat_aligned = X_wave1_fe.reindex(columns=X_train_fe.columns, fill_value=0.0)
@@ -336,6 +341,5 @@ def wave1_prediction_analysis(
         plt.savefig(fig_path, dpi=300)
         plt.close()
         print(f"Saved Wave 1 distribution plot for {col} to {fig_path}")
-
 
     print("\n===== WAVE 1 PREDICTION ANALYSIS DONE =====\n")
