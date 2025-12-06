@@ -212,8 +212,6 @@ def _tune_random_forest_classifier(seed, TRIALS_NUMBER, K_FOLD_K, X_train, y_tra
 
 def models(seed, TRIALS_NUMBER, K_FOLD_K, X_train, y_train, X_train_std):
 
-    print("Beginning model training...\n")
-
     optuna.logging.set_verbosity(optuna.logging.WARNING)
 
     # OLS baseline
