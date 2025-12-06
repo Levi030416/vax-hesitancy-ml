@@ -67,7 +67,7 @@ Variables include:
     pip install -r requirements.txt
 
 ### 3.5 EXPECTED FOLDER STRUCTURE
-    project_root/
+    vaccine_ml_project/
     ├── main.py
     ├── requirements.txt
     ├── dataset/
@@ -117,6 +117,7 @@ Model training:
 - Default seed = 101
 - All tuning and cross-validation are deterministic
 - Rerunning with the same seed reproduces identical results
+
 
 
 
