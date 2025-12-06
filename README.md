@@ -51,15 +51,11 @@ Variables include:
 ## 3 FULL PROJECT SETUP & EXECUTION
 
 ### 3.1 Clone repository and enter it
-
-
-   git clone <REPOSITORY_URL>
-   
-   cd <REPOSITORY_NAME>
-
+    git clone <REPOSITORY_URL>
+    cd <REPOSITORY_NAME>
 
 ### 3.2 Create virtual environment
-python -m venv .venv
+    python -m venv .venv
 
 ### 3.3 Activate the environment
     Windows:
@@ -68,63 +64,57 @@ python -m venv .venv
      source .venv/bin/activate
 
 ### 3.4 Install all required packages
+    pip install -r requirements.txt
 
-requirements.txt must contain exactly:
-numpy
-pandas
-scikit-learn
-matplotlib
-optuna
+### 3.5 EXPECTED FOLDER STRUCTURE
+    project_root/
+    ├── main.py
+    ├── requirements.txt
+    ├── data/
+    │   └── dataset.csv        <-- DATA IS ALREADY INCLUDED HERE
+    ├── code/
+    │   ├── data.py
+    │   ├── features.py
+    │   ├── models.py
+    │   └── evaluate.py
+    └── outputs/               <-- GENERATED AUTOMATICALLY
 
-pip install -r requirements.txt
+### 3.6 RUN THE FULL MACHINE LEARNING PIPELINE
+    --data_path is REQUIRED by the script even though the data is already in /data
+    --seed is OPTIONAL (default = 101)
+    python main.py --data_path data/dataset.csv --seed 101
 
-# 5) EXPECTED FOLDER STRUCTURE (DO NOT CHANGE)
-# project_root/
-# ├── main.py
-# ├── requirements.txt
-# ├── data/
-# │   └── dataset.csv        <-- DATA IS ALREADY INCLUDED HERE
-# ├── code/
-# │   ├── data.py
-# │   ├── features.py
-# │   ├── models.py
-# │   └── evaluate.py
-# └── outputs/               <-- GENERATED AUTOMATICALLY
+### 3.7) PIPELINE BEHAVIOR
+- Loads dataset from data/
+- Uses Wave 2 for training
+- 80/20 stratified train–test split
+- Feature engineering (dummies, type conversion, imputation, scaling)
 
-# 6) RUN THE FULL MACHINE LEARNING PIPELINE
-# --data_path is REQUIRED by the script even though the data is already in /data
-# --seed is OPTIONAL (default = 101)
-python main.py --data_path data/dataset.csv --seed 101
-
-# 7) PIPELINE BEHAVIOR
-# - Loads dataset from data/
-# - Uses Wave 2 for training
-# - 80/20 stratified train–test split
-# - Feature engineering (dummies, type conversion, imputation, scaling)
-# - Model training:
-#   OLS, Ridge, Lasso, Decision Tree, Random Forest (Optuna tuned)
-# - Model evaluation (Accuracy, Precision, Recall, F1, ROC-AUC, Confusion Matrix)
-# - Wave 1 out-of-sample prediction
-# - All results saved automatically into /outputs/
+Model training:
+ - OLS, Ridge, Lasso, Decision Tree, Random Forest (Optuna tuned)
+ - Model evaluation (Accuracy, Precision, Recall, F1, ROC-AUC, Confusion Matrix)
+ - Wave 1 out-of-sample prediction
+ - All results saved automatically into /outputs/
 
 # 8) GENERATED OUTPUT FILES
-# outputs/
-# ├── metrics.json
-# ├── metrics_table.csv
-# ├── predictions.json
-# ├── wave1_predictions.csv
-# ├── wave1_prediction_descriptives.csv
-# └── figures/
-#     ├── random_forest_feature_importance_top15.png
-#     ├── roc_curves.png
-#     ├── precision_recall_curves.png
-#     ├── wave1_distribution_ols.png
-#     ├── wave1_distribution_ridge.png
-#     ├── wave1_distribution_lasso.png
-#     ├── wave1_distribution_decision_tree.png
-#     └── wave1_distribution_random_forest.png
+    outputs/
+    ├── metrics.json
+    ├── metrics_table.csv
+    ├── predictions.json
+    ├── wave1_predictions.csv
+    ├── wave1_prediction_descriptives.csv
+    └── figures/
+      ├── random_forest_feature_importance_top15.png
+      ├── roc_curves.png
+      ├── precision_recall_curves.png
+      ├── wave1_distribution_ols.png
+      ├── wave1_distribution_ridge.png
+      ├── wave1_distribution_lasso.png
+      ├── wave1_distribution_decision_tree.png
+      └── wave1_distribution_random_forest.png
 
-# 9) REPRODUCIBILITY
-# - Default seed = 101
-# - All tuning and cross-validation are deterministic
-# - Rerunning with the same seed reproduces identical results
+### 3.9 REPRODUCIBILITY
+- Default seed = 101
+- All tuning and cross-validation are deterministic
+- Rerunning with the same seed reproduces identical results
+
