@@ -15,6 +15,15 @@ numeric_cols = [
     'age','psindex', 'nsindex', 'pandemic_impact_personal', 'pandemic_impact_network',
     'vaccine_trust']
 
+numeric_cols_nvt = [
+    'individual_responsibility', 'trust_science_community', 'trust_science_polmotives',
+    'trust_science_politicians', 'trust_science_media', 'trust_media',
+    'trust_gov_nat', 'trust_gov_state', 'trust_gov_local',
+    'perceived_personal_riskq297_4', 'perceived_network_risk',
+    'doctor_comfort', 'fear_needles', 'income', 'county_density',
+    'age','psindex', 'nsindex', 'pandemic_impact_personal', 'pandemic_impact_network',
+    ]
+
 
 def make_approval_dummies(X_train: pd.DataFrame,
                           X_test: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
@@ -44,11 +53,16 @@ def convert_categorical_columns(X_train: pd.DataFrame,
 
 
 def convert_numeric_columns(X_train: pd.DataFrame,
-                            X_test: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
+                            X_test: pd.DataFrame, nvt) -> tuple[pd.DataFrame, pd.DataFrame]:
     
-    for col in numeric_cols:
-        X_train[col] = X_train[col].astype('float')
-        X_test[col] = X_test[col].astype('float')
+    if nvt == 0:
+        for col in numeric_cols:
+            X_train[col] = X_train[col].astype('float')
+            X_test[col] = X_test[col].astype('float')
+    else:
+        for col in numeric_cols_nvt:
+            X_train[col] = X_train[col].astype('float')
+            X_test[col] = X_test[col].astype('float')
 
     return X_train, X_test
 
@@ -63,10 +77,14 @@ def make_other_categorical_dummies(X_train: pd.DataFrame,
 
 
 def impute_missing_values(X_train: pd.DataFrame,
-                          X_test: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
+                          X_test: pd.DataFrame, nvt) -> tuple[pd.DataFrame, pd.DataFrame]:
     median_imputer = SimpleImputer(strategy='median')
-    X_train[numeric_cols] = median_imputer.fit_transform(X_train[numeric_cols])
-    X_test[numeric_cols] = median_imputer.transform(X_test[numeric_cols])
+    if nvt == 0:
+        X_train[numeric_cols] = median_imputer.fit_transform(X_train[numeric_cols])
+        X_test[numeric_cols] = median_imputer.transform(X_test[numeric_cols])
+    else:
+        X_train[numeric_cols_nvt] = median_imputer.fit_transform(X_train[numeric_cols_nvt])
+        X_test[numeric_cols_nvt] = median_imputer.transform(X_test[numeric_cols_nvt])
 
     categorical_cols = [
         'male', 'college', 'evangelical', 'infected_personal', 'infected_network',
@@ -87,34 +105,36 @@ def impute_missing_values(X_train: pd.DataFrame,
 
 
 def standardize(X_train: pd.DataFrame,
-                X_test: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
+                X_test: pd.DataFrame, nvt) -> tuple[pd.DataFrame, pd.DataFrame]:
     
     X_train_standardized = X_train.copy()
     X_test_standardized = X_test.copy()
     scaler = StandardScaler()
-    X_train_standardized[numeric_cols] = scaler.fit_transform(X_train_standardized[numeric_cols])
-    X_test_standardized[numeric_cols] = scaler.transform(X_test_standardized[numeric_cols])
+    if nvt == 0:
+        X_train_standardized[numeric_cols] = scaler.fit_transform(X_train_standardized[numeric_cols])
+        X_test_standardized[numeric_cols] = scaler.transform(X_test_standardized[numeric_cols])
+    else:
+        X_train_standardized[numeric_cols_nvt] = scaler.fit_transform(X_train_standardized[numeric_cols_nvt])
+        X_test_standardized[numeric_cols_nvt] = scaler.transform(X_test_standardized[numeric_cols_nvt])
     
     return X_train_standardized, X_test_standardized
    
-def features(X_train, X_test, y_train, y_test):
+def features(X_train, X_test, y_train, y_test, nvt):
 
     # 1) special dummies
     X_train, X_test = make_approval_dummies(X_train, X_test)
 
     # 2) dtypes
     X_train, X_test = convert_categorical_columns(X_train, X_test)
-    X_train, X_test = convert_numeric_columns(X_train, X_test)
+    X_train, X_test = convert_numeric_columns(X_train, X_test, nvt)
 
     # 3) other categoricals → dummies
     X_train, X_test = make_other_categorical_dummies(X_train, X_test)
 
     # 4) impute missing values
-    X_train, X_test = impute_missing_values(X_train, X_test)
+    X_train, X_test = impute_missing_values(X_train, X_test, nvt)
 
     # 5) standardized copies for Lasso/Ridge
-    X_train_std, X_test_std = standardize(X_train, X_test)
-    
-    print("Feature engineering done.")
+    X_train_std, X_test_std = standardize(X_train, X_test, nvt)
 
     return X_train, X_test, y_train, y_test, X_train_std, X_test_std
