@@ -49,6 +49,10 @@ Variables include:
 ### 3.2 Create virtual environment
     python -m venv .venv
 
+    or 
+
+    python3 -m venv .venv
+
 ### 3.3 Activate the environment
     Windows:
      .venv\Scripts\activate
@@ -79,6 +83,7 @@ Variables include:
       ├── wave1_distribution_lasso.png
       ├── wave1_distribution_decision_tree.png
       └── wave1_distribution_random_forest.png
+
 
 
 
