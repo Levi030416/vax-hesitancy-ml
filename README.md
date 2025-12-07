@@ -19,27 +19,11 @@ The final goal is to:
 
 ## 2. Data
 
-### 2.1 Source
-
-- **Original dataset**: Harvard Dataverse (COVID vaccine hesitancy survey)  
+- **Original dataset**: Harvard Dataverse (COVID vaccine hesitancy survey; data/vh_data14.csv)  
 - **Wave 1**: no vaccine-hesitancy label → used later for *prediction only*  
 - **Wave 2**: includes `vaccine_hesitant` → used as *training dataset*
-
-(https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi%3A10.7910%2FDVN%2FGJVWYF&fbclid=IwY2xjawORHtpleHRuA2FlbQIxMQBzcnRjBmFwcF9pZAEwAAEeFA8hkI5DVFFs3e4UinyZszS9x4FfHL5gNE-EBJfltBWlE_9Jjxoyyeh3FMs_aem_L2iGJBJikODnIj3Ct4ysTQ)
-
-### 2.2 Files in this repo
-
-- `data/vh_data14.csv` – raw combined dataset with both waves (from Dataverse).
-- `variable_descriptions.docx` – codebook describing each variable, type, and scale.
-
-Variables include:
-
-- **Binary (0/1) dummies**: `male`, `college`, `evangelical`, `infected_personal`, `infected_network`, `president_approval`, `trump_approval_retrospective`, health conditions (e.g. `condition_diabetes`, `condition_obesity`), and `vaccine_hesitant`.  
-- **Categorical**: `race` (1–4), `party_id` (1–5).  
-- **Scales (0–10 or 0–12)**: trust in science, trust in media, trust in government, perceived risk, income, etc.  
-- **Numeric**: age, county density, indices of political / science literacy, pandemic impact, and `vaccine_trust`.
-
-> See `variable_descriptions.docx` for full details on each feature.
+- Find detailed variable descriptions in the file "variable_descriptions.docx".
+- Link to the original file: https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi%3A10.7910%2FDVN%2FGJVWYF&fbclid=IwY2xjawORHtpleHRuA2FlbQIxMQBzcnRjBmFwcF9pZAEwAAEeFA8hkI5DVFFs3e4UinyZszS9x4FfHL5gNE-EBJfltBWlE_9Jjxoyyeh3FMs_aem_L2iGJBJikODnIj3Ct4ysTQ
 
 ## 3 Setup and Exectuion
 
@@ -66,6 +50,7 @@ Variables include:
     python main.py
 
 ## Expected runtime can vary between 5 to 10 minutes based on hardware specifications.
+
 
 
 
